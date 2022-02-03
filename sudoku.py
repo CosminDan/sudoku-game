@@ -21,6 +21,39 @@ def sudoku_print(sudoku_board):
                 print(' ', end=' ')
             print()                     # add a new line after the line full of spaces
         else: print()                   # newline after each row
-    
 
-sudoku_print(sudoku_test)
+def sudoku_is_valid(sudoku_board):
+    # Returns True if the board given as parameter is a complete sudoku board
+    for i in range(8):
+        for j in range(8):
+            # Every number must be between 1 and 9
+            if sudoku_board[i][j]<1 or sudoku_board[i][j] > 9:
+                return False
+            # Every number must be different from the other ones below him
+            for compare_i in range(i+1,9):
+                if sudoku_board[i][j] == sudoku_board[compare_i][j]:
+                    return False
+            # Every number must be different from the other ones on his right
+            for compare_j in range(j+1,9):
+                if sudoku_board[i][j] == sudoku_board[i][compare_j]:
+                    return False
+
+    for first_i in range(0,9,3):
+        for first_j in range(0,9,3):
+            for i in range(first_i + 3):
+                for j in range(first_j + 3):
+                    for compare_i in range(i,first_i + 3):
+                        for compare_j in range(j, first_j + 3):
+                            if i == compare_i and j == compare_j:
+                                pass
+                            else:
+                                if sudoku_board[compare_i][compare_j] == sudoku_board[i][j]:
+                                    return False
+
+    return True
+
+#sudoku_print(sudoku_test)
+if(sudoku_is_valid(sudoku_test)):
+    print('This is a valid sudoku board!')
+else:
+    print('This board is not valid!')
